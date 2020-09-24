@@ -39,9 +39,16 @@ Form.Error = function FormError({ children, ...restProps }) {
   return <Error {...restProps}>{children}</Error>;
 };
 
-Form.Input = function FormInput({ children, ...restProps }) {
-  return <Input {...restProps}>{children}</Input>;
-};
+Form.Input = React.forwardRef(function FormInput(
+  { children, ...restProps },
+  ref
+) {
+  return (
+    <Input ref={ref} {...restProps}>
+      {children}
+    </Input>
+  );
+});
 
 Form.Submit = function FormSubmit({ children, ...restProps }) {
   return <Submit {...restProps}>{children}</Submit>;

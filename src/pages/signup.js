@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { HeaderContainer } from '../containers/header';
 import { FooterContainer } from '../containers/footer';
 import { Form } from '../components';
+import * as ROUTES from '../constants/routes';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
+  firstName: yup.string().required(),
   email: yup.string().email().required(),
   password: yup.string().min(3).required(),
 });
 
-export default function Signin() {
+export default function Signup() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -27,9 +29,18 @@ export default function Signin() {
     <>
       <HeaderContainer>
         <Form>
-          <Form.Title>Sign In</Form.Title>
+          <Form.Title>Sign Up</Form.Title>
           {error && <Form.Error>{error}</Form.Error>}
           <Form.Base onSubmit={handleSubmit(onSubmit)}>
+            <Form.Input
+              type="text"
+              placeholder="First Name"
+              name="firstName"
+              ref={register}
+            />
+            {errors.firstName && (
+              <Form.Error>{errors.firstName.message}</Form.Error>
+            )}
             <Form.Input
               type="email"
               placeholder="Email address"
@@ -48,11 +59,11 @@ export default function Signin() {
               <Form.Error>{errors.password?.message}</Form.Error>
             )}
             <Form.Submit disabled={loading} type="submit">
-              Sign In
+              Sign Up
             </Form.Submit>
 
             <Form.Text>
-              New to Neflix? <Form.Link to="/signup">Sign up now.</Form.Link>
+              Already a user? <Form.Link to="/signin">Sign in now.</Form.Link>
             </Form.Text>
             <Form.TextSmall>
               This page is protected by Google reCAPTCHA.
