@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { FirebaseContext } from '../context/firebase';
 import { HeaderContainer } from '../containers/header';
 import { FooterContainer } from '../containers/footer';
 import { Form } from '../components';
@@ -14,15 +16,37 @@ const schema = yup.object().shape({
 });
 
 export default function Signup() {
+  const history = useHistory();
+  const { firebase } = useContext(FirebaseContext);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  console.log(firebase);
 
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    setLoading(true);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(data.email, data.password)
+      .then((result) =>
+        result.user
+          .updateProfile({
+            displayName: data.firstName,
+            photoURL: Math.floor(Math.random() * 5) + 1,
+          })
+          .then(() => {
+            setLoading(false);
+            history.push(ROUTES.BROWSE);
+          })
+      )
+      .catch((error) => {
+        setLoading(false);
+        setError(error.message);
+      });
   };
 
   return (
