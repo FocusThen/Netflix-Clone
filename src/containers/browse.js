@@ -9,12 +9,13 @@ export function BrowseContainer() {
   const [profile, setProfile] = useState({});
   const [category, setCategory] = useState('series');
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { firebase } = useContext(FirebaseContext);
 
   const user = {
     displayName: 'muco',
-    photoURL: '1',
+    photoURL: '2',
   };
 
   return profile.displayName ? (
@@ -40,7 +41,30 @@ export function BrowseContainer() {
               Films
             </Header.Link>
           </Header.Group>
+          <Header.Group>
+            <Header.Search
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+            <Header.Profile>
+              <Header.Picture src={user.photoURL} />
+
+              <Header.Dropdown>
+                <Header.Group>
+                  <Header.Picture src={user.photoURL} />
+                  <Header.Link>{user.displayName}</Header.Link>
+                </Header.Group>
+
+                <Header.Group>
+                  <Header.Link onClick={() => firebase.auth().signOut()}>
+                    Sign out
+                  </Header.Link>
+                </Header.Group>
+              </Header.Dropdown>
+            </Header.Profile>
+          </Header.Group>
         </Header.Frame>
+
         <Header.Feature>
           <Header.FeatureCallOut>Watch Joker Now</Header.FeatureCallOut>
           <Header.Text>
