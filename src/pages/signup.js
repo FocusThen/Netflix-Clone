@@ -21,8 +21,6 @@ export default function Signup() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  console.log(firebase);
-
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
   });

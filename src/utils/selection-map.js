@@ -3,7 +3,7 @@ export default function selectionMap({ series, films }) {
     series: [
       {
         title: 'Documentaries',
-        data: series.filter((item) => item.genre === 'doumentaries'),
+        data: series.filter((item) => item.genre === 'documentaries'),
       },
       {
         title: 'Comedies',
