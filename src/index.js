@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import * as Firebase from 'firebase';
 import { GlobalStyles } from './global-styles';
 import { FirebaseContext } from './context/firebase';
+//import { seedDatabase } from './seed';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,6 +19,8 @@ const config = {
 };
 
 const firebase = Firebase.initializeApp(config);
+
+//seedDatabase(firebase);
 
 ReactDOM.render(
   <React.StrictMode>
