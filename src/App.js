@@ -1,25 +1,39 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { Route } from 'react-router-dom';
 import * as ROUTES from './constants/routes';
 import { Home, Signin, Signup, Browse } from './pages';
+import { useAuthListener } from './hooks';
+import { IsUserRedirect, ProtectedRoute } from './helpers/routes';
 
 export function App() {
+  const { user } = useAuthListener();
   return (
     <Router>
       <Switch>
-        <Route path={ROUTES.SIGN_IN}>
+        <IsUserRedirect
+          user={user}
+          path={ROUTES.SIGN_IN}
+          loggedInPath={ROUTES.BROWSE}
+        >
           <Signin />
-        </Route>
-        <Route path={ROUTES.SIGN_UP}>
+        </IsUserRedirect>
+        <IsUserRedirect
+          user={user}
+          path={ROUTES.SIGN_UP}
+          loggedInPath={ROUTES.BROWSE}
+        >
           <Signup />
-        </Route>
-        <Route path={ROUTES.BROWSE}>
+        </IsUserRedirect>
+        <ProtectedRoute user={user} path={ROUTES.BROWSE}>
           <Browse />
-        </Route>
-        <Route path={ROUTES.HOME}>
+        </ProtectedRoute>
+        <IsUserRedirect
+          user={user}
+          loggedInPath={ROUTES.BROWSE}
+          path={ROUTES.HOME}
+        >
           <Home />
-        </Route>
+        </IsUserRedirect>
       </Switch>
     </Router>
   );
