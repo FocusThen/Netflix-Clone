@@ -3,6 +3,7 @@ import Fuse from 'fuse.js';
 import { Card, Loading, Header, Player } from '../components';
 import * as ROUTES from '../constants/routes';
 import { FirebaseContext } from '../context/firebase';
+import { UserContext } from '../context/user';
 import { SelectProfileContainer } from './profiles';
 import { FooterContainer } from './footer';
 
@@ -14,11 +15,7 @@ export function BrowseContainer({ slides }) {
   const [slideRows, setSlideRows] = useState([]);
 
   const { firebase } = useContext(FirebaseContext);
-
-  const user = {
-    displayName: 'Muco',
-    photoURL: '1',
-  };
+  const user = useContext(UserContext);
 
   useEffect(() => {
     setTimeout(() => {

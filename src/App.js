@@ -4,6 +4,7 @@ import * as ROUTES from './constants/routes';
 import { Home, Signin, Signup, Browse } from './pages';
 import { useAuthListener } from './hooks';
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes';
+import { UserContext } from './context/user';
 
 export function App() {
   const { user } = useAuthListener();
@@ -25,7 +26,9 @@ export function App() {
           <Signup />
         </IsUserRedirect>
         <ProtectedRoute user={user} path={ROUTES.BROWSE}>
-          <Browse />
+          <UserContext.Provider value={user}>
+            <Browse />
+          </UserContext.Provider>
         </ProtectedRoute>
         <IsUserRedirect
           user={user}
